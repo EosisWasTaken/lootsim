@@ -1,0 +1,51 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="lootSim.css">
+</head>
+
+<body>
+  <div class="grid-container">
+    <div class="info"><span id="information">Information</span></div>
+    <div class="alert"><span id="alertbox">Alert box</span></div>
+    <div class="chat"><span id="chatbox"></span></div><br>
+    <div class="input"><input id="playerinput" type="text" autofocus></input></div>
+    <div class="run"><button id="runbutton" disabled>Enter</button></div>
+    <div class="inv"><span id="inventory">Inventory</span></div>
+    <div class="updates"><span id="changelog">Changelog<br>salut a tous la v1 est <br>sortie</span></div>
+    <div class="map"><span id="worldmap">World Map</span></div>
+  </div>
+    <script>
+        cmdHistory = [];
+        let historyLimit = 16;
+        let lb = "\n\r";
+
+        document.getElementById("playerinput").addEventListener("keydown",
+            function(e) {
+                if (e.keyCode == 13) {
+                    e.preventDefault();
+                    document.getElementById("runbutton").click();
+                    let m = document.getElementById('playerinput').value;
+                    cmdHistory.push(m)
+                    document.getElementById("playerinput").value = "";
+                    console.log(cmdHistory[cmdHistory.length - 1]);
+                    sendToChatbox()
+                }
+            });
+
+        function sendToChatbox() {
+            let old = ""
+            while (cmdHistory.length > historyLimit) {
+                cmdHistory.splice(0, 1)
+            }
+            for (msg in cmdHistory) {
+                document.getElementById("chatbox").innerHTML = "";
+                document.getElementById("chatbox").textContent = old + lb + ">>>  " + cmdHistory[msg];
+                old = document.getElementById("chatbox").textContent;
+                console.log("msg" + msg + cmdHistory[msg])
+            };
+        };
+    </script>
+</body>
+
+</html> <!-- A REFAIRE DE ZERO -->
